@@ -4,10 +4,12 @@ import { Route } from 'react-router-dom'
 import AuthenticatedRoute from '../AuthenticatedRoute/AuthenticatedRoute'
 import AutoDismissAlert from '../AutoDismissAlert/AutoDismissAlert'
 import Header from '../Header/Header'
-import SignUp from '../SignUp/SignUp'
-import SignIn from '../SignIn/SignIn'
-import SignOut from '../SignOut/SignOut'
-import ChangePassword from '../ChangePassword/ChangePassword'
+import SignUp from '../Auth/SignUp/SignUp'
+import SignIn from '../Auth/SignIn/SignIn'
+import SignOut from '../Auth/SignOut/SignOut'
+import ChangePassword from '../Auth/ChangePassword/ChangePassword'
+import ChatMain from '../Chat/Chat'
+import NewChat from '../Chat/NewChat'
 
 class App extends Component {
   constructor () {
@@ -53,6 +55,12 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/test' render={() => (
+            <ChatMain msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/test/create-new-chat' render={() => (
+            <NewChat msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
-import { signUp, signIn } from '../../api/auth'
-import messages from '../AutoDismissAlert/messages'
+import { signUp, signIn } from '../../../api/auth'
+import messages from '../../AutoDismissAlert/messages'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -14,7 +14,8 @@ class SignUp extends Component {
     this.state = {
       email: '',
       password: '',
-      passwordConfirmation: ''
+      passwordConfirmation: '',
+      nickName: ''
     }
   }
 
@@ -37,7 +38,7 @@ class SignUp extends Component {
       }))
       .then(() => history.push('/'))
       .catch(error => {
-        this.setState({ email: '', password: '', passwordConfirmation: '' })
+        this.setState({ email: '', password: '', passwordConfirmation: '', nickName: '' })
         msgAlert({
           heading: 'Sign Up Failed with error: ' + error.message,
           message: messages.signUpFailure,
@@ -47,7 +48,7 @@ class SignUp extends Component {
   }
 
   render () {
-    const { email, password, passwordConfirmation } = this.state
+    const { email, password, passwordConfirmation, nickName } = this.state
 
     return (
       <div className="row">
@@ -84,6 +85,17 @@ class SignUp extends Component {
                 value={passwordConfirmation}
                 type="password"
                 placeholder="Confirm Password"
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="nickName">
+              <Form.Label>Nick Name</Form.Label>
+              <Form.Control
+                required
+                name="nickName"
+                value={nickName}
+                type="string"
+                placeholder="Nick Name"
                 onChange={this.handleChange}
               />
             </Form.Group>
