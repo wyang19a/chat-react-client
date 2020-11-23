@@ -6,5 +6,6 @@ export default {
   signOutSuccess: 'Come back soon!',
   changePasswordSuccess: 'Password changed successfully!',
   changePasswordFailure: 'Failed to change passwords. Check your old password and try again.',
-  createChatSuccess: 'Successfully created new chat session!'
+  createChatSuccess: 'Successfully created new chat session!',
+  editChatSuccess: 'Successfully edited chat session!'
 }
