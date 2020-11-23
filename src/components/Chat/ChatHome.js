@@ -6,8 +6,13 @@ import { getChatSessions } from '../../api/chatsession'
 const ChatGridStyle = styled.div`
   padding-top: 5rem;
 `
+const ChatSessionInfoStyles = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: space-between;
+`
 
-function ChatHome ({ user, setChatSessionId, setChatSessionName }) {
+function ChatHome ({ user, setChatSessionId, setChatSessionName, socket }) {
   // const [count, setCount] = useState(0)
   const [chatSessions, setChatSessions] = useState([])
 
@@ -28,16 +33,18 @@ function ChatHome ({ user, setChatSessionId, setChatSessionName }) {
   const handleSessionClick = (id, name) => {
     setChatSessionId(id)
     setChatSessionName(name)
+    socket.emit('join chatroom', name)
   }
   return (
     <ChatGridStyle>
       <Link to="chatlobby/create-new-chat">New Chat Session</Link>
       <h1>Chatting app</h1>
       {chatSessions && chatSessions.map(session => (
-        <div key={session._id}>
+        <ChatSessionInfoStyles key={session._id}>
           {/* <p>{session.name}</p> */}
           <Link to="chatlobby/chat" onClick={() => handleSessionClick(session._id, session.name)}>{session.name}</Link>
-        </div>
+          <div>owner: {session.owner.nickName}</div>
+        </ChatSessionInfoStyles>
       ))}
       {/* Friend list */}
     </ChatGridStyle>

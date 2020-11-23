@@ -1,10 +1,15 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { createMessage } from '../../api/message'
 
-export default function ChatInputField ({ chatSessionId, user }) {
+export default function ChatInputField ({ chatSessionId, user, socket, getMessages, chatSessionName }) {
   const [message, setMessage] = useState('')
 
+  useEffect(() => {
+    socket.on('new chat message', () => {
+      getMessages()
+    })
+  }, [])
   const handleChange = (e) => {
     setMessage(e.target.value)
   }
@@ -13,6 +18,10 @@ export default function ChatInputField ({ chatSessionId, user }) {
     e.preventDefault()
     createMessage(message, chatSessionId, user)
       .then(setMessage(''))
+      .then(() => {
+        socket.emit('send chat message', chatSessionName)
+        getMessages()
+      })
   }
 
   return (
