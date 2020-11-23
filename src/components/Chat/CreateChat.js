@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { createChatSession } from '../../api/chatsession'
 import messages from '../AutoDismissAlert/messages'
 
-function NewChat ({ msgAlert, history, user }) {
+function CreateChat ({ msgAlert, history, user }) {
   const [formData, setFormData] = useState({ name: '' })
 
   const onCreateChatSession = e => {
@@ -17,7 +17,7 @@ function NewChat ({ msgAlert, history, user }) {
         message: messages.createChatSuccess,
         variant: 'success'
       }))
-      .then(() => history.push('/test'))
+      .then(() => history.push('/chat-main'))
       .catch()
   }
   const handleChange = e => {
@@ -49,4 +49,4 @@ function NewChat ({ msgAlert, history, user }) {
   )
 }
 
-export default withRouter(NewChat)
+export default withRouter(CreateChat)
