@@ -11,6 +11,7 @@ import ChangePassword from '../Auth/ChangePassword/ChangePassword'
 import ChatHome from '../Chat/ChatHome'
 import CreateChat from '../Chat/CreateChat'
 import ChatApp from '../Chat/ChatApp'
+import UpdateChat from '../Chat/UpdateChat'
 
 export default function App ({ socket }) {
   const [user, setUser] = useState(null)
@@ -55,7 +56,10 @@ export default function App ({ socket }) {
           <CreateChat msgAlert={msgAlert} user={user} />
         )} />
         <AuthenticatedRoute user={user} path='/chatlobby/chat' render={() => (
-          <ChatApp msgAlert={msgAlert} user={user} chatSessionId={chatSessionId} chatSessionName={chatSessionName} />
+          <ChatApp msgAlert={msgAlert} user={user} chatSessionId={chatSessionId} chatSessionName={chatSessionName} socket={socket} />
+        )} />
+        <AuthenticatedRoute user={user} path='/update-chatsession' render={() => (
+          <UpdateChat msgAlert={msgAlert} user={user} />
         )} />
       </main>
     </Fragment>
