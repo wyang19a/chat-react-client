@@ -1,9 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { getChatSession } from '../../api/chatsession'
+import { getChatSession, deleteChatSession } from '../../api/chatsession'
 import ChatMessages from './ChatMessages'
 import ChatInputField from './ChatInputField'
+import { AiOutlineDelete } from 'react-icons/ai'
+import { withRouter } from 'react-router-dom'
 
-export default function ChatApp ({ chatSessionId, chatSessionName, user }) {
+function ChatApp ({ chatSessionId, chatSessionName, user, history }) {
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
@@ -17,11 +19,23 @@ export default function ChatApp ({ chatSessionId, chatSessionName, user }) {
       .catch()
   }
 
+  const handleClose = (id) => {
+    deleteChatSession(id, user)
+      .then(console.log('delete success!'))
+      .then(() => history.push('/chatlobby'))
+  }
+  // Add Update and Delete
   return (
     <Fragment>
-      <h4>{chatSessionName}</h4>
+      <div>
+        <h4>{chatSessionName}</h4>
+        {/* <AiOutlineEdit onClick={handleEdit} /> */}
+        <AiOutlineDelete onClick={() => handleClose(chatSessionId)} />
+      </div>
       <ChatMessages messages={messages} user={user} />
       <ChatInputField chatSessionId={chatSessionId} user={user} />
     </Fragment>
   )
 }
+
+export default withRouter(ChatApp)
