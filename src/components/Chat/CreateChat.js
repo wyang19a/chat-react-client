@@ -17,7 +17,7 @@ function CreateChat ({ msgAlert, history, user }) {
         message: messages.createChatSuccess,
         variant: 'success'
       }))
-      .then(() => history.push('/chat-main'))
+      .then(() => history.push('/chatlobby'))
       .catch()
   }
   const handleChange = e => {
