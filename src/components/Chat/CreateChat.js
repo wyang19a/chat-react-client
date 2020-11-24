@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { createChatSession } from '../../api/chatsession'
 import messages from '../AutoDismissAlert/messages'
 
-function CreateChat ({ msgAlert, history, user }) {
+function CreateChat ({ msgAlert, history, user, socket }) {
   const [formData, setFormData] = useState({ name: '' })
 
   const onCreateChatSession = e => {
@@ -17,6 +17,7 @@ function CreateChat ({ msgAlert, history, user }) {
         message: messages.createChatSuccess,
         variant: 'success'
       }))
+      .then(() => socket.emit('new chatsession created'))
       .then(() => history.push('/chatlobby'))
       .catch()
   }

@@ -19,6 +19,12 @@ function ChatHome ({ user, setChatSessionId, setChatSessionName, socket }) {
   useEffect(() => {
     onGetChatSessions()
     // console.log(socket)
+    socket.on('update session list for deleted', () => {
+      onGetChatSessions()
+    })
+    socket.on('update session list for created', () => {
+      onGetChatSessions()
+    })
   }, [])
 
   const onGetChatSessions = () => {
@@ -33,7 +39,8 @@ function ChatHome ({ user, setChatSessionId, setChatSessionName, socket }) {
   const handleSessionClick = (id, name) => {
     setChatSessionId(id)
     setChatSessionName(name)
-    socket.emit('join chatroom', name)
+    // send 'join chatroom' to backend
+    socket.emit('join chatsession', name)
   }
   return (
     <ChatGridStyle>

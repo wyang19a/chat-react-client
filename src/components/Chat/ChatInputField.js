@@ -6,6 +6,7 @@ export default function ChatInputField ({ chatSessionId, user, socket, getMessag
   const [message, setMessage] = useState('')
 
   useEffect(() => {
+    // listen for 'new chat message', get Messages.
     socket.on('new chat message', () => {
       getMessages()
     })
@@ -19,6 +20,7 @@ export default function ChatInputField ({ chatSessionId, user, socket, getMessag
     createMessage(message, chatSessionId, user)
       .then(setMessage(''))
       .then(() => {
+        // send 'send chat message' to backend, then get Messages.
         socket.emit('send chat message', chatSessionName)
         getMessages()
       })

@@ -28,7 +28,7 @@ function UpdateChat ({ msgAlert, history, user, chatSessionId }) {
 
   return (
     <Fragment>
-      <h1>Update Chat Name</h1>
+      <h1>Update Session Name</h1>
       <Form onSubmit={onUpdateChatSession}>
         <Form.Group controlId="name">
           <Form.Label>Session name</Form.Label>

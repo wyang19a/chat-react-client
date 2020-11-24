@@ -1,21 +1,23 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { getChatSession, deleteChatSession } from '../../api/chatsession'
+import { getChatSession, deleteChatSession, updateChatSession } from '../../api/chatsession'
 import ChatMessages from './ChatMessages'
 import ChatInputField from './ChatInputField'
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import { BiExit } from 'react-icons/bi'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
+import { Form } from 'react-bootstrap'
 
 const ChatAppStyles = styled.div`
     display: flex;
     flex-direction: row;
 `
 
-function ChatApp ({ chatSessionId, chatSessionName, user, history, socket }) {
-  const [mode, setMode] = useState(null)
+function ChatApp ({ chatSessionId, chatSessionName, user, history, socket, setChatSessionName }) {
+  const [updateMode, setUpdateMode] = useState(false)
   const [messages, setMessages] = useState([])
   const [owner, setOwner] = useState('')
+  const [chatsession, setChatsession] = useState({ name: '' })
 
   useEffect(() => {
     getMessages()
@@ -31,26 +33,57 @@ function ChatApp ({ chatSessionId, chatSessionName, user, history, socket }) {
       .catch()
   }
 
-  const handleClose = (id) => {
+  const handleDelete = (id) => {
     deleteChatSession(id, user)
       .then(() => history.push('/chatlobby'))
+      .then(socket.emit('chatsession deleted'))
   }
   const handleEdit = () => {
-    setMode('update-mode')
+    // setChatsession(chatsession.name)
+    setUpdateMode(!updateMode)
   }
-  const handleUpdateSubmit = () => {
-    setMode(null)
+  const handleUpdateSubmit = (e) => {
+    e.preventDefault()
+    console.log(chatsession)
+    updateChatSession(chatsession, chatSessionId, user)
+      .then(() => setChatSessionName(chatsession.name))
+      .then(() => setUpdateMode(false))
+      .catch()
+  }
+  const handleChange = e => {
+    setChatsession({
+      [e.target.name]: e.target.value
+    })
   }
   // Add Update and Delete
   return (
     <Fragment>
       <ChatAppStyles>
-        {mode === 'update-mode'
-          ? <div><input placeholder='Session name'></input><button onClick={() => handleUpdateSubmit()}>Submit</button></div> : <h4>{chatSessionName}</h4>}
+        {updateMode
+          ? <Form onSubmit={handleUpdateSubmit}>
+            <Form.Group controlId="name">
+              <Form.Control
+                required
+                name="name"
+                value={chatsession.name}
+                type="text"
+                placeholder="New session name"
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Form>
+          // <form onSubmit={handleUpdateSubmit}>
+          //   <label>
+          //     Name:
+          //     <input type='text' name='name' onChange={e => handleChange(e)} defaultValue={chatsession.name} />
+          //   </label>
+          //   <button type='submit' />
+          // </form>
+          : <h4>{chatSessionName}</h4>}
         {owner === user._id
           ? <div>
             <AiOutlineEdit onClick={() => handleEdit(chatSessionId)} />
-            <AiOutlineDelete size='1.5rem' onClick={() => handleClose(chatSessionId)} />
+            <AiOutlineDelete size='1.5rem' onClick={() => handleDelete(chatSessionId)} />
           </div>
           : ''}
         <BiExit size='1.5rem' />
