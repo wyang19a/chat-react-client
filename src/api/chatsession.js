@@ -48,7 +48,7 @@ export const updateChatSession = (chatsession, chatSessionId, user) => {
       Authorization: `Token token=${user.token}`
     },
     data: {
-      chatroom: {
+      chatsession: {
         name: chatsession.name
       }
     }
