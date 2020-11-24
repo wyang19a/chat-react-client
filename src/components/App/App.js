@@ -53,10 +53,10 @@ export default function App ({ socket }) {
           <ChatHome msgAlert={msgAlert} user={user} socket={socket} setChatSessionId={setChatSessionId} setChatSessionName={setChatSessionName} />
         )} />
         <AuthenticatedRoute user={user} path='/chatlobby/create-new-chat' render={() => (
-          <CreateChat msgAlert={msgAlert} user={user} />
+          <CreateChat msgAlert={msgAlert} user={user} socket={socket} />
         )} />
         <AuthenticatedRoute user={user} path='/chatlobby/chat' render={() => (
-          <ChatApp msgAlert={msgAlert} user={user} chatSessionId={chatSessionId} chatSessionName={chatSessionName} socket={socket} />
+          <ChatApp msgAlert={msgAlert} user={user} chatSessionId={chatSessionId} chatSessionName={chatSessionName} setChatSessionName={setChatSessionName} socket={socket} />
         )} />
         <AuthenticatedRoute user={user} path='/update-chatsession' render={() => (
           <UpdateChat msgAlert={msgAlert} user={user} />
