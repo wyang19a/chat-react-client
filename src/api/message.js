@@ -13,7 +13,7 @@ export const getMessages = user => {
 }
 
 // CREATE
-export const createMessage = (text, sessionId, user) => {
+export const createMessage = (text, sessionId, messageType, user) => {
   return axios({
     url: apiUrl + '/messages',
     method: 'POST',
@@ -24,6 +24,7 @@ export const createMessage = (text, sessionId, user) => {
       message: {
         text: text,
         sessionId: sessionId,
+        messageType: messageType,
         nickName: user.nickName
       }
     }

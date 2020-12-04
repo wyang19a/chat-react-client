@@ -17,7 +17,7 @@ function ChatApp ({ chatSessionId, chatSessionName, user, history, socket, setCh
   const [updateMode, setUpdateMode] = useState(false)
   const [messages, setMessages] = useState([])
   const [owner, setOwner] = useState('')
-  const [chatsession, setChatsession] = useState({ name: '' })
+  const [chatsession, setChatsession] = useState({ name: chatSessionName })
 
   useEffect(() => {
     getMessages()
@@ -43,8 +43,9 @@ function ChatApp ({ chatSessionId, chatSessionName, user, history, socket, setCh
     setUpdateMode(!updateMode)
   }
   const handleUpdateSubmit = (e) => {
+    // console.log('Hi!')
     e.preventDefault()
-    console.log(chatsession)
+    // console.log(chatsession)
     updateChatSession(chatsession, chatSessionId, user)
       .then(() => setChatSessionName(chatsession.name))
       .then(() => setUpdateMode(false))

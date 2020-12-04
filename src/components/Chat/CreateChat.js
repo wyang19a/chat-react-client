@@ -8,9 +8,12 @@ import messages from '../AutoDismissAlert/messages'
 function CreateChat ({ msgAlert, history, user, socket }) {
   const [formData, setFormData] = useState({ name: '' })
 
-  const onCreateChatSession = e => {
+  const handlesubmit = e => {
     e.preventDefault()
 
+    onCreateChatSession()
+  }
+  const onCreateChatSession = () => {
     createChatSession(formData, user)
       .then(() => msgAlert({
         heading: 'New Chat Session Created',
@@ -30,7 +33,7 @@ function CreateChat ({ msgAlert, history, user, socket }) {
   return (
     <Fragment>
       <h1>New Chat</h1>
-      <Form onSubmit={onCreateChatSession}>
+      <Form onSubmit={handlesubmit}>
         <Form.Group controlId="name">
           <Form.Label>Session name</Form.Label>
           <Form.Control

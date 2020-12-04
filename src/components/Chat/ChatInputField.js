@@ -10,6 +10,10 @@ export default function ChatInputField ({ chatSessionId, user, socket, getMessag
     socket.on('new chat message', () => {
       getMessages()
     })
+    // socket.on('join success', () => {
+    //   createMessage(`${user.nickName} joined`, chatSessionId, user)
+    //   getMessages()
+    // })
   }, [])
   const handleChange = (e) => {
     setMessage(e.target.value)
@@ -17,7 +21,7 @@ export default function ChatInputField ({ chatSessionId, user, socket, getMessag
 
   const onMessageSubmit = (e) => {
     e.preventDefault()
-    createMessage(message, chatSessionId, user)
+    createMessage(message, chatSessionId, 'user-input', user)
       .then(setMessage(''))
       .then(() => {
         // send 'send chat message' to backend, then get Messages.
@@ -36,6 +40,7 @@ export default function ChatInputField ({ chatSessionId, user, socket, getMessag
             value={message}
             type="textarea"
             placeholder="Your message here"
+            autoComplete="off"
             onChange={handleChange}
           />
         </Form.Group>

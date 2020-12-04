@@ -29,20 +29,34 @@ const OthersMessagesStyle = styled.div`
   }
 `
 
+function ConditionalMessage ({ user, message }) {
+  if (user._id === message.owner && message.messageType === 'user-input') {
+    return (
+      <UserMessageStyle>
+        <span className='message-text'>{message.text}</span><span className='message-user-name'>{message.nickName}</span>
+      </UserMessageStyle>
+    )
+  } else if (user._id === message.owner && message.messageType === 'user-input') {
+    return (
+      <OthersMessagesStyle>
+        <span className='message-user-name'>{message.nickName}</span><span className='message-text'>{message.text}</span>
+      </OthersMessagesStyle>
+    )
+  } else if (message.messageType === 'info') {
+    return (
+      <p>{message.text}</p>
+    )
+  } else {
+    return null
+  }
+}
+
 export default function ChatMessages ({ messages, user }) {
-  // console.log(messages)
   return (
     <Fragment>
       {messages && messages.map(message => (
         <MessageStyle key={message._id}>
-          {user._id === message.owner
-            ? <UserMessageStyle>
-              <span className='message-text'>{message.text}</span><span className='message-user-name'>{message.nickName}</span>
-            </UserMessageStyle>
-            : <OthersMessagesStyle>
-              <span className='message-user-name'>{message.nickName}</span><span className='message-text'>{message.text}</span>
-            </OthersMessagesStyle>
-          }
+          <ConditionalMessage user={user} message={message} />
         </MessageStyle>
       ))}
     </Fragment>

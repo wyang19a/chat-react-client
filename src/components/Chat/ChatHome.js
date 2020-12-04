@@ -13,20 +13,18 @@ const ChatSessionInfoStyles = styled.div`
 `
 
 function ChatHome ({ user, setChatSessionId, setChatSessionName, socket }) {
-  // const [count, setCount] = useState(0)
   const [chatSessions, setChatSessions] = useState([])
 
   useEffect(() => {
     onGetChatSessions()
     // console.log(socket)
-    socket.on('update session list for deleted', () => {
-      onGetChatSessions()
-    })
-    socket.on('update session list for created', () => {
-      onGetChatSessions()
-    })
   }, [])
-
+  socket.on('update session list for deleted', () => {
+    onGetChatSessions()
+  })
+  socket.on('update session list for created', () => {
+    onGetChatSessions()
+  })
   const onGetChatSessions = () => {
     getChatSessions(user)
       .then(res => setChatSessions(res.data.chatsessions))
@@ -39,7 +37,7 @@ function ChatHome ({ user, setChatSessionId, setChatSessionName, socket }) {
   const handleSessionClick = (id, name) => {
     setChatSessionId(id)
     setChatSessionName(name)
-    // send 'join chatroom' to backend
+    // subscribe to `name` by sending 'join chatroom' to backend
     socket.emit('join chatsession', name)
   }
   return (
